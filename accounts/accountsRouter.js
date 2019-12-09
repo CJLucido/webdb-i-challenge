@@ -7,9 +7,13 @@ const router = express.Router()
 
 //ENDPOINTS
 
+let queryLimit = null
+
 //POST
 
 router.post('/', (req, res) => {
+
+    
 
     db('accounts')
     .insert(req.body, 'id')
@@ -35,8 +39,11 @@ router.post('/', (req, res) => {
 //READ
 
 router.get('/', (req, res)=> {
+    queryLimit = req.query.limit
+
     db('accounts')
     .select('*')
+    .limit(queryLimit)
     .then(accounts => {
         res.status(200).json(accounts)
     })
